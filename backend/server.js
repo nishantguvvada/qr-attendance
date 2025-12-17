@@ -5,10 +5,15 @@ const paymentRouter = require('./src/routes/payment');
 const webhookRouter = require('./src/routes/webhook');
 const errorHandler = require('./src/middleware/errorHandler');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 mongoose.connect(process.env.MONGODB_URL);
 
 const app = express();
+app.use(cors({
+    origin: '*',
+    credentials: true
+}));
 app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/plans', plansRouter);
