@@ -35,6 +35,14 @@ const createClient = async (planId, clientEmail, paymentId) => {
     return { client: client, token: token}
 }
 
+const getClients = async () => {
+
+    const clients = await Client.find({});
+
+    return clients;
+}
+
 module.exports = {
-    createClient: createClient
+    createClient: createClient,
+    getClients: getClients
 }
