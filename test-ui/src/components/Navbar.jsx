@@ -30,13 +30,13 @@ export const Navbar = () => {
                     </a>
                     </li>
                     <li className='max-lg:border-b max-lg:border-gray-300 max-lg:py-3 px-3'>
-                    <a href='javascript:void(0)'
+                    <a href='/home'
                         className='font-medium lg:hover:text-green-700 text-green-700 block text-[15px]'>Home</a>
                     </li>
                     <li className='max-lg:border-b max-lg:border-gray-300 max-lg:py-3 px-3'><a href='javascript:void(0)'
                     className='font-medium lg:hover:text-green-700 text-slate-900 block text-[15px]'>Scan</a>
                     </li>
-                    <li className='max-lg:border-b max-lg:border-gray-300 max-lg:py-3 px-3'><a href='javascript:void(0)'
+                    <li className='max-lg:border-b max-lg:border-gray-300 max-lg:py-3 px-3'><a href='/services'
                     className='font-medium lg:hover:text-green-700 text-slate-900 block text-[15px]'>Services</a>
                     </li>
                 </ul>

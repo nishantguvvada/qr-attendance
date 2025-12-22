@@ -37,7 +37,27 @@ const createClient = async (planId, clientEmail, paymentId) => {
 
 const getClients = async () => {
 
-    const clients = await Client.find({});
+    const clients = await Client.aggregate([
+        {
+            $addFields: {
+                planIdConverted: { $toObjectId: "$planId" }
+            }
+        },
+        {
+            $lookup: {
+                from: 'plans',
+                localField: 'planIdConverted',
+                foreignField: '_id',
+                as: 'planDetails'
+            }
+        },
+        {
+            $unwind: {
+                path: '$planDetails',
+                preserveNullAndEmptyArrays: true
+            }
+        }
+    ]);
 
     return clients;
 }
