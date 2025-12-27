@@ -31,10 +31,27 @@ const sendQREmail = async (toEmail, token) => {
     };
 
     await sendGrid.send(messageData);
-    console.log(`Message sent`);
+    console.log(`QR sent`);
+
+}
+
+const sendLinkEmail = async (adminEmail, plinkId) => {
+
+    const messageData = {
+        to: adminEmail,
+        from: "ngx@nishantguvvada.co.in",
+        subject: "Payment Initiated - Use the link ID for manual override",
+        text: "Text Message",
+        html: `<strong>Hello!</strong><br><p>Use the link ID for manual override:</p>
+            <p>${plinkId}</p>`
+    };
+
+    await sendGrid.send(messageData);
+    console.log(`Link sent`);
 
 }
 
 module.exports = {
-    sendQREmail: sendQREmail
+    sendQREmail: sendQREmail,
+    sendLinkEmail: sendLinkEmail
 }

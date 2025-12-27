@@ -1,6 +1,11 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import toast from "react-hot-toast";
 
 export const Card = ({data}) => {
+
+    const navigate = useNavigate();
 
     const [clientEmail, setClientEmail] = useState('');
 
@@ -8,8 +13,36 @@ export const Card = ({data}) => {
         setClientEmail(e.target.value);
     };
 
-    const handleClick = () => {
-        console.log(data._id)
+    const handleClick = async () => {
+
+        if (!clientEmail) {
+            toast.error('Email cannot be empty');
+            return;
+        }
+
+        try {
+
+            const response = await axios.post('http://localhost:3000/api/payments/create', {
+
+                planId: data._id,
+                clientEmail: clientEmail
+
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            console.log(response);
+            toast.success(response.data.paymentLinkId);
+            navigate(response.data.paymentLink);
+
+        } catch(err) {
+
+            console.log(err);
+
+        }
     }
     
     return (

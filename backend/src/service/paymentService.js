@@ -29,7 +29,7 @@ const createPayment = async ({adminId, planId, clientEmail}) => {
         currency: "INR",
         description: `Payment for ${plan.name}`,
         customer: { email: clientEmail },
-        callback_url: "http://localhost:4000/frontend",
+        callback_url: "http://localhost:5173/home",
         callback_method: "get"
     });
 

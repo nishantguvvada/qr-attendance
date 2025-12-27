@@ -1,29 +1,60 @@
 import { useEffect, useState } from "react"
 import { Card } from "./Card"
 import axios from "axios";
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom'
 
 export const Services = () => {
+
+    const navigate = useNavigate();
 
     const [plans, setPlans] = useState([]);
 
     useEffect(() => {
-        try {
-            const getPlans = async () => {
+
+        const getPlans = async () => {
+
+            try {
 
                 const response = await axios.get('http://localhost:3000/api/plans/list', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                console.log(response.data.plans);
+
                 setPlans(response.data.plans)
+
+            } catch(err) {
+
+                if (err.response) {
+
+                    console.error('Error Status:', err.response.status);
+                    console.error('Error Data:', err.response.data);
+
+                    if (err.response.status === 403) {
+                        toast.error('Access denied. Please log in again.');
+                    }
+
+                    navigate('/login')
+
+                } else if (err.request) {
+
+                    toast.error('No response received:', err.request);
+
+                } else {
+
+                    toast.error('Error Message:', err.message);
+
+                }
+
             }
+        
+        }
 
             getPlans();
-        } catch(err) {
-            console.log(err);
-        }
+
     }, []);
+
     return (
         <>
             <div className="mt-12 w-full h-full flex flex-row justify-center items-center">

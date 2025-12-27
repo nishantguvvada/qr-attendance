@@ -4,6 +4,7 @@ const plansRouter = require('./src/routes/plans');
 const paymentRouter = require('./src/routes/payment');
 const webhookRouter = require('./src/routes/webhook');
 const clientRouter = require('./src/routes/client');
+const qrRouter = require('./src/routes/qr');
 const errorHandler = require('./src/middleware/errorHandler');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -21,8 +22,8 @@ app.use('/api/plans', plansRouter);
 app.use('/api/payments', paymentRouter);
 app.use('/api/verify', webhookRouter);
 app.use('/api/clients', clientRouter);
-// app.use('/api/qr', qrRouter);
-// app.use('/api/attendance', attendanceRouter);
+app.use('/api/qr', qrRouter);
+
 app.use(errorHandler);
 
 app.get('/', (req, res) => {

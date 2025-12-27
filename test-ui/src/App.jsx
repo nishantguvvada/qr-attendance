@@ -1,6 +1,7 @@
 import { Signup } from './components/Signup'
 import { Login } from './components/Login';
 import { Home } from './components/Home';
+import { Scan } from './components/Scan';
 import { Services } from './components/Services';
 import { MainLayout } from './components/MainLayout';
 import { Routes, Route } from 'react-router-dom';
@@ -18,6 +19,7 @@ function App() {
 
         <Route element={<MainLayout />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/scan" element={<Scan />} />
           <Route path="/services" element={<Services />} />
         </Route>
       </Routes>

@@ -1,38 +1,14 @@
-const Plan = require('../models/plans');
 const Client = require('../models/client');
 
-const createClient = async (planId, clientEmail, paymentId) => {
-
-    const plan = await Plan.findOne({ _id: planId });
-    
-    const token = crypto.randomUUID();
-    const start = new Date();
-    const end = new Date(start); 
-    end.setDate(start.getDate() + plan.duration); 
-    
-
-    const existingClient = await Client.findOne({ clientEmail: clientEmail }).sort({ createdAt: -1 }).exec();
-
-    if(existingClient) {
-
-        existingClient.membershipStatus = "expired";
-        existingClient.save();
-
-    }
+const createClient = async (email) => {
 
     const client = await Client.create({
-        clientName: `client-${paymentId}-${planId}`,
-        clientEmail: clientEmail,
-        planId: planId,
-        paymentId: paymentId,
-        membershipStatus: "active",
-        startDate: start,
-        endDate: end,
+        name: `client-${email}`,
+        email: email,
         createdAt: new Date(),
-        qrToken: token
     });
 
-    return { client: client, token: token}
+    return client
 }
 
 const getClients = async () => {
@@ -40,21 +16,53 @@ const getClients = async () => {
     const clients = await Client.aggregate([
         {
             $addFields: {
-                planIdConverted: { $toObjectId: "$planId" }
+                clientIdStr: { $toString: "$_id" } 
+            }
+        },
+        {
+            $lookup: {
+                from: 'memberships',
+                localField: 'clientIdStr',
+                foreignField: 'clientId',
+                as: 'membership'
+            }
+        },
+        {
+            $unwind: {
+                path: '$membership',
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $addFields: {
+                planIdObj: { $toObjectId: "$membership.planId" }
             }
         },
         {
             $lookup: {
                 from: 'plans',
-                localField: 'planIdConverted',
+                localField: 'planIdObj',
                 foreignField: '_id',
-                as: 'planDetails'
+                as: 'plan'
             }
         },
         {
             $unwind: {
-                path: '$planDetails',
+                path: '$plan',
                 preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                name: 1,
+                email: 1,
+                membershipDuration: "$plan.duration", // From Plan table
+                membershipStatus: "$membership.status",
+                endDate: "$membership.endDate",     // From Membership table
+                planName: "$plan.name",             // From Plan table
+                planPrice: "$plan.price",           // From Plan table
+                paymentId: "$membership.paymentId"  // From Membership table
             }
         }
     ]);

@@ -1,7 +1,7 @@
 const webhookService = require('../service/webhookService');
 const paymentService = require('../service/paymentService');
-const clientService = require('../service/clientService');
 const emailService = require('../service/emailService');
+const memberService = require('../service/memberService');
 
 const handleWebhook = async (req, res) => {
 
@@ -19,9 +19,9 @@ const handleWebhook = async (req, res) => {
 
             const updatedPayment = await paymentService.updatePayment(req.body.payload.payment_link.entity.id, req.body.payload.payment.entity.id);
 
-            const { client, token } = await clientService.createClient(updatedPayment.planId, updatedPayment.clientEmail, updatedPayment._id);
+            const { _, token } = await memberService.handleMembership(updatedPayment.clientEmail, updatedPayment.planId, updatedPayment._id);
 
-            await emailService.sendQREmail(client.clientEmail, token);
+            await emailService.sendQREmail(updatedPayment.clientEmail, token);
         }
 
         return res.status(200).json({ status: "ok" });

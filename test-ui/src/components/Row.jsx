@@ -4,16 +4,16 @@ export const Row = ({data}) => {
         <>
             <tr className="even:bg-blue-50">
                 <td className="p-4 text-[15px] text-slate-900 font-medium">
-                {data.clientName}
+                {data.name}
                 </td>
                 <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {data.clientEmail}
+                {data.email}
                 </td>
                 <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {data.planDetails.name}
+                {data.planName}
                 </td>
                 <td className="p-4 text-[15px] text-slate-600 font-medium">
-                {data.startDate}
+                {data.endDate}
                 </td>
                 <td className="p-4 text-[15px] text-slate-600 font-medium">
                 {data.membershipStatus}
