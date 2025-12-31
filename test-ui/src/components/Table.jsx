@@ -48,7 +48,10 @@ export const Table = () => {
                     Plan
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-white">
-                    Joined At
+                    End Date
+                    </th>
+                    <th className="p-4 text-left text-sm font-medium text-white">
+                    Membership Expiration
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-white">
                     Status
@@ -59,6 +62,9 @@ export const Table = () => {
                 <tbody className="whitespace-nowrap">
                     {clientList.length > 0 ? clientList.map((client, id) => { return <Row key={id} data={client} /> }) : <tr className="even:bg-blue-50">
                     <td className="p-4 text-[15px] text-slate-900 font-medium">
+                    -
+                    </td>
+                    <td className="p-4 text-[15px] text-slate-600 font-medium">
                     -
                     </td>
                     <td className="p-4 text-[15px] text-slate-600 font-medium">

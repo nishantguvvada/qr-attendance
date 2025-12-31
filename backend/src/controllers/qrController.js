@@ -20,8 +20,14 @@ const verifyQR = async (req, res) => {
 
         if (!membership) {
 
-            return res.status(404).json({ valid: false, message: "Invalid, Expired, or Inactive Membership" });
+            return res.status(404).json({ valid: false, message: "Invalid QR" });
 
+        }
+
+        if (Date.now() > membership.endDate) {
+            
+            return res.status(404).json({ valid: false, message: "Expired Membership"});
+            
         }
 
         const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
