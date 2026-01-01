@@ -47,7 +47,7 @@ export const Card = ({data}) => {
     
     return (
         <>
-            <div className="bg-white border border-gray-200 shadow-md p-6 w-full max-w-sm rounded-lg overflow-hidden mx-auto mt-4">
+            <div className="bg-white border border-gray-200 shadow-md p-6 w-full h-full max-w-sm rounded-lg mx-auto mt-4">
                 <h3 className="text-xl font-semibold text-slate-900">{data.name}</h3>
                 <p className="mt-3 text-sm text-slate-500 leading-relaxed">{data.price.$numberDecimal}</p>
 
